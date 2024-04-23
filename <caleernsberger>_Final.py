@@ -14,9 +14,9 @@ class Block(pygame.sprite.Sprite):
     def __init__(self, scene):
         super().__init__()
         self.scene = scene
-        # Load the .png image and resize it
+       
         original_image = pygame.image.load("Charlie.png").convert_alpha()
-        self.image = pygame.transform.scale(original_image, (50, 50))  # Resize to (50, 50)
+        self.image = pygame.transform.scale(original_image, (50, 50)) 
         self.rect = self.image.get_rect()
         self.rect.centerx = scene.screen.get_width() // 2
         self.rect.bottom = scene.screen.get_height() - 10
@@ -34,10 +34,10 @@ class Wall(pygame.sprite.Sprite):
     def __init__(self, scene, x, y, gap_x):
         super().__init__()
         self.scene = scene
-        wall_length = scene.screen.get_width() // 5  # Set the wall length to be one-fifth of the screen width
+        wall_length = scene.screen.get_width() // 5  
         self.image = pygame.Surface((wall_length, 20))
         self.image.fill((255, 255, 255))
-        # Draw red spikes at the bottom of the wall (flipped)
+        
         spike_height = 40
         num_spikes = int(self.image.get_width() / 10)  # Number of spikes based on wall width
         for i in range(num_spikes):
@@ -101,7 +101,7 @@ class Game:
         self.score_font = pygame.font.SysFont(None, 36)
 
         self.start_time = time.time()  # Start time for the game
-        self.game_over_time = None  # Time when game over occurs
+        self.game_over_time = None 
 
         self.timer_font = pygame.font.SysFont(None, 36)
         self.game_over_font = pygame.font.SysFont(None, 72)
@@ -117,13 +117,13 @@ class Game:
         self.wall_timer = 0
         self.coin_timer = time.time()
 
-        self.passed_wall = False  # Flag to track if block has passed a wall without hitting it
+        self.passed_wall = False  
 
         self.running = True
         self.game_over = False
 
     def create_wall(self):
-        gap_x = random.randint(0, self.screen_width - 200)  # Randomize gap position
+        gap_x = random.randint(0, self.screen_width - 200)  
         wall_x = random.randint(0, self.screen_width - self.screen_width // 5)  # Randomize wall position
         wall = Wall(self, wall_x, -20, gap_x)
         self.all_sprites.add(wall)
@@ -189,23 +189,23 @@ class Game:
                     self.create_wall()
 
                 if time.time() - self.wall_timer >= 1 / self.levels[self.current_level]["wall_frequency"] and not self.passed_wall:
-                    self.score += 1  # Increment score only if a wall was passed without hitting it
+                    self.score += 1  
                     self.wall_timer = time.time()  # Reset wall timer
-                    self.passed_wall = True  # Set passed_wall flag to True
+                    self.passed_wall = True  
 
                 self.create_coin()
 
-                # Blit background image
+                
                 self.screen.blit(self.background_image, (0, 0))
 
                 self.all_sprites.draw(self.screen)
                 score_text = self.score_font.render("Score: " + str(self.score), True, (255, 255, 255))
                 self.screen.blit(score_text, (10, 10))
 
-                # Calculate and display elapsed time
+                
                 elapsed_time = time.time() - self.start_time
                 timer_text = self.timer_font.render("Time: {:.1f}".format(elapsed_time), True, (255, 255, 255))
-                self.screen.blit(timer_text, (10, 50))  # Adjust position as needed
+                self.screen.blit(timer_text, (10, 50))  
 
             if self.game_over:
                 self.display_game_over()
@@ -226,7 +226,7 @@ class Game:
             final_time_text = self.score_font.render("Time: {:.1f}".format(self.game_over_time), True, (255, 255, 255))
             self.screen.blit(final_time_text, (self.screen_width // 2 - 60, self.screen_height // 2 + 60))
 
-        # Draw restart button
+        
         restart_text = self.score_font.render("Restart", True, (255, 255, 255))
         restart_button_width = 150
         restart_button_height = 50
